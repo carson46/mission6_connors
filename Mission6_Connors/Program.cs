@@ -5,9 +5,11 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+// Configure Entity Framework Core to use SQLite.
 builder.Services.AddDbContext<MovieAdditionContext>(options =>
 {
-    options.UseSqlite(builder.Configuration["ConnectionStrings: DBConnection"]);
+    options.UseSqlite(builder.Configuration.GetConnectionString("DBConnection"));
 });
 
 var app = builder.Build();
@@ -16,8 +18,7 @@ var app = builder.Build();
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-    app.UseHsts();
+    app.UseHsts(); // Default HSTS value is 30 days
 }
 
 app.UseHttpsRedirection();
@@ -31,13 +32,4 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
-app.Run();
-app.UseRouting();
-
-app.UseAuthorization();
-
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
-
-app.Run();
+app.Run(); // Ensure this is the only call to app.Run()

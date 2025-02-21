@@ -1,4 +1,3 @@
-using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Mission6_Connors.Models;
 
@@ -6,30 +5,42 @@ namespace Mission6_Connors.Controllers;
 
 public class HomeController : Controller
 {
+    private readonly MovieAdditionContext _context;
+
+    // ✅ Add a constructor to initialize `_context`
+    public HomeController(MovieAdditionContext context)
+    {
+        _context = context;
+    }
+
     public IActionResult Index()
     {
-        return View(); // Returns the home page
+        return View();
     }
 
     [HttpGet]
     public IActionResult AddMovie()
     {
-        return View(); // Displays the movie entry form
+        ViewBag.Categories = _context.Categories.OrderBy(c => c.CategoryName).ToList();
+        return View();
     }
 
     [HttpPost]
     public IActionResult AddMovie(Movie response)
     {
-        return View("Confirmation", response); // Sends form data to Confirmation page
+        _context.Movies.Add(response);
+        _context.SaveChanges();
+
+        return View("Confirmation", response);
     }
 
     public IActionResult Confirmation(Movie response)
     {
-        return View(response); // Displays confirmation page with movie details
+        return View(response);
     }
 
     public IActionResult GetToKnowJoel()
     {
-        return View("GetToKnow"); // Displays "Get to Know Joel" page
+        return View("GetToKnow");
     }
 }
