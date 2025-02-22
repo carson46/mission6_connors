@@ -13,19 +13,19 @@
 <body>
 <h1>The Joel Hilton Film Collection</h1>
     
-<form asp-action="Confirmation" method="post">
+<form asp-action="AddMovie" method="post">
     <label asp-for="Title">Title:</label>
     <input asp-for="Title" required />
     <br/><br/>
 
-    <label asp-for="CategoryId">Category:</label>
-    <select asp-for="CategoryId">
+    <select asp-for="CategoryId" required>
         <option value="">Select a Category</option>
         @foreach (var category in ViewBag.Categories)
         {
             <option value="@category.CategoryId">@category.CategoryName</option>
         }
     </select>
+
 
     <br/><br/>
 
@@ -56,6 +56,13 @@
 
     <label asp-for="LentTo">Lent To:</label>
     <input asp-for="LentTo" />
+    <br/><br/>
+
+    <label asp-for="CopiedToPlex">Copied to Plex?</label>
+    <select asp-for="CopiedToPlex" required>
+        <option value="true">Yes</option>  
+        <option value="false">No</option>  
+    </select>
     <br/><br/>
 
     <label asp-for="Notes">Notes (max 25 characters):</label>

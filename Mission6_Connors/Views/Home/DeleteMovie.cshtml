@@ -1,0 +1,14 @@
+@model Mission6_Connors.Models.Movie
+
+@{
+    ViewData["Title"] = "Delete Movie";
+}
+
+<h2 class="text-center">Delete Movie</h2>
+<p>Are you sure you want to delete <strong>@Model.Title</strong>?</p>
+
+<form asp-action="DeleteMovieConfirmed" asp-route-id="@Model.MovieId" method="post">
+    <input type="hidden" asp-for="MovieId" />
+    <button type="submit" class="btn btn-danger">Delete</button>
+    <a class="btn btn-secondary" asp-action="AllMovies">Cancel</a>
+</form>
